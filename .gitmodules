@@ -1,3 +1,12 @@
 [submodule "RandomPassGen"]
 	path = RandomPassGen
 	url = https://github.com/MU1147-LEGEND/RandomPassGen
+[submodule "book-shop"]
+	path = book-shop
+	url = https://github.com/MU1147-LEGEND/book-shop
+[submodule "react-context-api"]
+	path = react-context-api
+	url = https://github.com/MU1147-LEGEND/react-context-api
+[submodule "bteb-result-app"]
+	path = bteb-result-app
+	url = https://github.com/MU1147-LEGEND/bteb-result-app
