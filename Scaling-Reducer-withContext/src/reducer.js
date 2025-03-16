@@ -22,11 +22,15 @@ function reducer(tasks, action) {
 
         case "EDIT": {
             console.log("Edit");
-            break;
+            return tasks;
         }
         case "DELETE": {
-            console.log("Deleted");
-            break;
+            console.log(`task id ${action.id} deleted`);
+            return tasks.filter((t)=>{
+                return t.id !== action.id;
+            })
+
+            // return tasks;
         }
         case "default": {
             console.log("Default");

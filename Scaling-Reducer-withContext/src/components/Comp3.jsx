@@ -3,6 +3,7 @@ import Button from "./buttons/Button";
 
 const Comp3 = ({ tasks, dispatch }) => {
     const [text, setText] = useState("");
+    const [edit, setEdit] = useState(false);
 
     const addTask = () => {
         dispatch({
@@ -19,7 +20,6 @@ const Comp3 = ({ tasks, dispatch }) => {
             type: "check",
             task,
         });
-        console.log(task);
     };
 
     const handleDeleteTask = (id) => {
@@ -34,6 +34,7 @@ const Comp3 = ({ tasks, dispatch }) => {
             type: "edit",
             id: id,
         });
+        setEdit(!edit);
     };
 
     return (
@@ -61,8 +62,10 @@ const Comp3 = ({ tasks, dispatch }) => {
                                     <span>
                                         <input
                                             type="checkbox"
-                                            name="done"
-                                            id="done"
+                                            name={
+                                                task.text.slice(0, 3) + task.id
+                                            }
+                                            id={task.text.slice(0, 3) + task.id}
                                             checked={task.done}
                                             onChange={(e) => {
                                                 checkTask({
@@ -71,15 +74,23 @@ const Comp3 = ({ tasks, dispatch }) => {
                                                 });
                                             }}
                                         />
-                                        <span>&nbsp;{task.text}</span>
+                                        <label
+                                            htmlFor={
+                                                task.text.slice(0, 3) + task.id
+                                            }
+                                        >
+                                            &nbsp;{task.text}
+                                        </label>
                                     </span>
                                     <span>
                                         <Button
-                                            type="Edit"
+                                            // key={task.id}
+                                            type={edit? "save" : "edit"}
                                             onClick={() => {
                                                 handleEditTask(task.id);
                                             }}
                                         />
+
                                         <Button
                                             type="delete"
                                             onClick={() => {

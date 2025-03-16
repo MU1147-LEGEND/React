@@ -2,6 +2,8 @@ import React from "react";
 import "./button.css";
 
 const Button = ({ type, onClick }) => {
+    // const [edit, setEdit] = React.useState(false);
+
     // edit button
     if (type.toLowerCase() === "edit") {
         return (
