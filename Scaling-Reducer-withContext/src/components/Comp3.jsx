@@ -3,13 +3,14 @@ import Button from "./buttons/Button";
 
 const Comp3 = ({ tasks, dispatch }) => {
     const [text, setText] = useState("");
-    const [edit, setEdit] = useState(false);
+    const [editText, setEditText] = useState("");
+    const [edit, setEdit] = useState(null);
 
     const addTask = () => {
         dispatch({
             type: "add",
             text: text,
-            id: tasks.length,
+            id: generateUUID(),
             done: false,
         });
         setText("");
@@ -29,13 +30,41 @@ const Comp3 = ({ tasks, dispatch }) => {
         });
     };
 
-    const handleEditTask = (id) => {
+    const handleEditTask = (task) => {
         dispatch({
             type: "edit",
-            id: id,
+            id: task.id,
+            text: task.text,
         });
-        setEdit(!edit);
     };
+
+    // AI generated random uuid generator code.
+    function generateUUID() {
+        // Public Domain/MIT
+        let d = new Date().getTime(); //Timestamp
+        let d2 =
+            (typeof performance !== "undefined" &&
+                performance.now &&
+                performance.now() * 1000) ||
+            0; //Time in microseconds since page-load or 0 if unsupported
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+            /[xy]/g,
+            function (c) {
+                let r = Math.random() * 16; //random number between 0 and 16
+                if (d > 0) {
+                    //Use timestamp until depleted
+                    r = (d + r) % 16 | 0;
+                    d = Math.floor(d / 16);
+                } else {
+                    //Use microseconds since page-load if supported
+                    r = (d2 + r) % 16 | 0;
+                    d2 = Math.floor(d2 / 16);
+                }
+                return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+            }
+        );
+    }
+    // AI generated random uuid generator code.
 
     return (
         <>
@@ -53,54 +82,109 @@ const Comp3 = ({ tasks, dispatch }) => {
                     />
                     <br />
                     <div className="tasks pt-4">
-                        {tasks.map((task) => {
-                            return (
-                                <div
-                                    key={task.id}
-                                    className="my-3 w-96 m-auto text-left flex justify-between items-center"
-                                >
-                                    <span>
-                                        <input
-                                            type="checkbox"
-                                            name={
-                                                task.text.slice(0, 3) + task.id
-                                            }
-                                            id={task.text.slice(0, 3) + task.id}
-                                            checked={task.done}
-                                            onChange={(e) => {
-                                                checkTask({
-                                                    ...task,
-                                                    done: e.target.checked,
-                                                });
-                                            }}
-                                        />
-                                        <label
-                                            htmlFor={
-                                                task.text.slice(0, 3) + task.id
-                                            }
+                        {tasks.length ? (
+                            <>
+                                {tasks.map((task) => {
+                                    return (
+                                        <div
+                                            key={task.id}
+                                            className="my-3 w-96 m-auto text-left flex justify-between items-center"
                                         >
-                                            &nbsp;{task.text}
-                                        </label>
-                                    </span>
-                                    <span>
-                                        <Button
-                                            // key={task.id}
-                                            type={edit? "save" : "edit"}
-                                            onClick={() => {
-                                                handleEditTask(task.id);
-                                            }}
-                                        />
+                                            <div className="tasks">
+                                                <input
+                                                    type="checkbox"
+                                                    name={task.text}
+                                                    id={task.id}
+                                                    checked={task.done}
+                                                    onChange={() => {
+                                                        checkTask({
+                                                            ...task,
+                                                            done: !task.done,
+                                                        });
+                                                    }}
+                                                />
 
-                                        <Button
-                                            type="delete"
-                                            onClick={() => {
-                                                handleDeleteTask(task.id);
-                                            }}
-                                        />
-                                    </span>
+                                                {edit === task.id ? (
+                                                    <>
+                                                        <input
+                                                            className="text-black py-1.5 px-2 rounded-lg focus:outline-none
+                                                    focus:ring-2 focus:ring-blue-600"
+                                                            placeholder="Type updated task"
+                                                            type="text"
+                                                            value={editText}
+                                                            onChange={(e) => {
+                                                                setEditText(
+                                                                    e.target
+                                                                        .value
+                                                                );
+                                                            }}
+                                                        />
+                                                        <button
+                                                            className="relative mx-2 px-4 py-1.5 bg-green-400 rounded-lg hover:bg-green-500 transition-colors duration-300 text-black/95 active:bg-green-600 active:translate-y-[2px]"
+                                                            onClick={() => {
+                                                                handleEditTask({
+                                                                    ...task,
+                                                                    text: editText,
+                                                                });
+
+                                                                setEdit(!edit);
+                                                            }}
+                                                        >
+                                                            Save
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span
+                                                            className={
+                                                                task.done
+                                                                    ? "opacity-80 line-through"
+                                                                    : "opacity-100"
+                                                            }
+                                                        >
+                                                            {" "}
+                                                            {task.text}{" "}
+                                                        </span>
+                                                        <button
+                                                            className="relative mx-2 px-4 py-1.5 bg-orange-400 rounded-lg hover:bg-orange-500 transition-colors duration-300 text-black/95 active:bg-orange-600 active:translate-y-[2px]"
+                                                            onClick={() => {
+                                                                setEdit(
+                                                                    task.id
+                                                                );
+                                                                setEditText(
+                                                                    task.text
+                                                                );
+                                                            }}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+
+                                            <Button
+                                                type="delete"
+                                                onClick={() => {
+                                                    console.log(tasks);
+                                                    handleDeleteTask(task.id);
+                                                }}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </>
+                        ) : (
+                            <>
+                                <div>
+                                    <h1 className="text-2xl mb-4">
+                                        No spots added yet.
+                                    </h1>
+                                    <p className="text-sm">
+                                        Please add a spot to see it here
+                                    </p>
                                 </div>
-                            );
-                        })}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+import { scan } from "react-scan"; // must be imported before React and React DOM
 import React, { useReducer } from "react";
 import Comp1 from "./components/Comp1";
 import reducer from "./reducer";
@@ -12,8 +13,6 @@ const App = () => {
     );
 };
 
-// let nextId = 3;
-
 const initialTasks = [
     { id: 0, text: "Chittagong lengta shah", done: true },
     { id: 1, text: "Sylhet Bal shah", done: false },
@@ -21,3 +20,7 @@ const initialTasks = [
 ];
 
 export default App;
+
+scan({
+    enabled: false,
+});

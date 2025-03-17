@@ -21,14 +21,22 @@ function reducer(tasks, action) {
         }
 
         case "EDIT": {
-            console.log("Edit");
-            return tasks;
+            return tasks.map((t) => {
+                if (t.id === action.id) {
+                    return {
+                        ...t,
+                        text: action.text,
+                    };
+                } else {
+                    return t;
+                }
+            });
         }
         case "DELETE": {
             console.log(`task id ${action.id} deleted`);
-            return tasks.filter((t)=>{
+            return tasks.filter((t) => {
                 return t.id !== action.id;
-            })
+            });
 
             // return tasks;
         }
