@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "./buttons/Button";
+import { TaskContext, TaskDispatchContext } from "../context/taskContext";
 
-const Comp3 = ({ tasks, dispatch }) => {
+let inputStyle = "";
+const Comp3 = () => {
     const [text, setText] = useState("");
     const [editText, setEditText] = useState("");
     const [edit, setEdit] = useState(null);
+    // context and reducers
+    const tasks = useContext(TaskContext);
+    const dispatch = useContext(TaskDispatchContext);
 
     const addTask = () => {
         dispatch({
@@ -37,6 +42,12 @@ const Comp3 = ({ tasks, dispatch }) => {
             text: task.text,
         });
     };
+
+    const addInputError = ()=>{
+        if(!text){
+            inputStyle = "ring-2 ring-red-500 bg-red-300";
+        }
+    }
 
     // AI generated random uuid generator code.
     function generateUUID() {
@@ -75,9 +86,7 @@ const Comp3 = ({ tasks, dispatch }) => {
                     <Button
                         type={"add"}
                         onClick={() => {
-                            text.trim() !== ""
-                                ? addTask()
-                                : alert("please add task");
+                            text.trim() !== "" ? addTask() : addInputError();
                         }}
                     />
                     <br />
@@ -197,8 +206,7 @@ export default Comp3;
 function AddInput({ text, setText }) {
     return (
         <input
-            className="text-black py-1.5 px-2 rounded-lg focus:outline-none
-                        focus:ring-2 focus:ring-blue-600"
+            className={inputStyle + ""}
             type="text"
             value={text}
             placeholder="Add a task"

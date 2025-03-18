@@ -2,13 +2,18 @@ import { scan } from "react-scan"; // must be imported before React and React DO
 import React, { useReducer } from "react";
 import Comp1 from "./components/Comp1";
 import reducer from "./reducer";
+import { TaskContext, TaskDispatchContext } from "./context/taskContext";
 
 const App = () => {
     const [tasks, dispatch] = useReducer(reducer, initialTasks);
 
     return (
         <>
-            <Comp1 tasks={tasks} dispatch={dispatch} />
+            <TaskContext.Provider value={tasks}>
+                <TaskDispatchContext.Provider value={dispatch}>
+                    <Comp1 />
+                </TaskDispatchContext.Provider>
+            </TaskContext.Provider>
         </>
     );
 };
