@@ -9,8 +9,8 @@ const Comp3 = () => {
     const [edit, setEdit] = useState(null);
     const [inputError, setInputError] = useState(false);
     const [editError, setEditError] = useState(false);
-    const [isDelete, setIsDelete] = useState(false);
     const [confirmationOpen, setConfirmationOpen] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState(null);
     // context and reducers
     const tasks = useContext(TaskContext);
     const dispatch = useContext(TaskDispatchContext);
@@ -207,26 +207,29 @@ const Comp3 = () => {
                                                 type="delete"
                                                 buttonText={"Delete"}
                                                 onClick={() => {
+                                                    setTaskToDelete(task.id);
                                                     setConfirmationOpen(true);
-
                                                 }}
                                             />
-                                            {confirmationOpen ? (
-                                                <ConfirmDelete
-                                                    setConfirmationOpen={
-                                                        setConfirmationOpen
-                                                    }
-                                                    handleDeleteTask={
-                                                        handleDeleteTask
-                                                    }
-                                                    id={task.id}
-                                                />
-                                            ) : (
-                                                ""
-                                            )}
+                                            {confirmationOpen &&
+                                                taskToDelete === task.id && (
+                                                    <ConfirmDelete
+                                                        setConfirmationOpen={
+                                                            setConfirmationOpen
+                                                        }
+                                                        handleDeleteTask={() => {
+                                                            handleDeleteTask(
+                                                                taskToDelete
+                                                            );
+                                                            setTaskToDelete(
+                                                                null
+                                                            );
+                                                        }}
+                                                        id={task.id}
+                                                    />
+                                                )}
                                         </div>
                                     );
-                                    
                                 })}
                             </>
                         ) : (
