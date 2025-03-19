@@ -1,9 +1,7 @@
 import React from "react";
 import "./button.css";
 
-const Button = ({ type, onClick }) => {
-    // const [edit, setEdit] = React.useState(false);
-
+const Button = ({ type, onClick, buttonText }) => {
     // edit button
     if (type.toLowerCase() === "edit") {
         return (
@@ -12,7 +10,7 @@ const Button = ({ type, onClick }) => {
             transition-colors duration-300 text-black/95 active:bg-orange-600 active:translate-y-[2px]"
                 onClick={onClick}
             >
-                Edit
+                {buttonText ? buttonText : "Edit"}
             </button>
         );
     }
@@ -24,7 +22,7 @@ const Button = ({ type, onClick }) => {
                 className="relative mx-2 px-4 py-1.5 bg-red-400 rounded-lg hover:bg-red-500 transition-colors duration-300 text-black/95 active:bg-red-600 active:translate-y-[2px]"
                 onClick={onClick}
             >
-                Delete
+                {buttonText? buttonText : "Delete"}
             </button>
         );
     }
@@ -39,7 +37,10 @@ const Button = ({ type, onClick }) => {
                 {/*  manually capitalize the first letter  */}
                 {/* {type === "save" ? "Save" : "Add"} */}
                 {/* capitalize the first letter using JS */}
-                {type.charAt(0).toUpperCase() + type.slice(1)}
+
+                {/* {type.charAt(0).toUpperCase() + type.slice(1)} */}
+                
+                {buttonText ? buttonText : ""}
             </button>
         );
     }

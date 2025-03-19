@@ -1,12 +1,16 @@
 import React, { useContext, useState } from "react";
 import Button from "./buttons/Button";
 import { TaskContext, TaskDispatchContext } from "../context/taskContext";
+import ConfirmDelete from "./ConfirmDelete";
 
 const Comp3 = () => {
     const [text, setText] = useState("");
     const [editText, setEditText] = useState("");
     const [edit, setEdit] = useState(null);
     const [inputError, setInputError] = useState(false);
+    const [editError, setEditError] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
+    const [confirmationOpen, setConfirmationOpen] = useState(false);
     // context and reducers
     const tasks = useContext(TaskContext);
     const dispatch = useContext(TaskDispatchContext);
@@ -88,12 +92,15 @@ const Comp3 = () => {
                     />
                     <Button
                         type={"add"}
+                        buttonText={"Add"}
                         onClick={() => {
                             text.trim() !== "" ? addTask() : addInputError();
                         }}
                     />
                     <br />
-                    <p className="text-red-400">{inputError ? "Please add some text" : ""}</p>
+                    <p className="text-red-400">
+                        {inputError ? "Please add some text" : ""}
+                    </p>
                     <div className="tasks pt-4">
                         {tasks.length ? (
                             <>
@@ -120,9 +127,16 @@ const Comp3 = () => {
                                                 {edit === task.id ? (
                                                     <>
                                                         <input
-                                                            className="text-black py-1.5 px-2 rounded-lg focus:outline-none
-                                                    focus:ring-2 focus:ring-blue-600"
-                                                            placeholder="Type updated task"
+                                                            className={
+                                                                editError
+                                                                    ? "ring-2 ring-red-500 py-1.5 px-2 rounded-lg focus:outline-none"
+                                                                    : "text-black py-1.5 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                            }
+                                                            placeholder={
+                                                                editError
+                                                                    ? "Input should not empty"
+                                                                    : "Edit task"
+                                                            }
                                                             type="text"
                                                             value={editText}
                                                             onChange={(e) => {
@@ -130,17 +144,34 @@ const Comp3 = () => {
                                                                     e.target
                                                                         .value
                                                                 );
+                                                                setEditError(
+                                                                    false
+                                                                );
                                                             }}
                                                         />
                                                         <Button
                                                             type="save"
+                                                            buttonText={"Save"}
                                                             onClick={() => {
-                                                                handleEditTask({
-                                                                    ...task,
-                                                                    text: editText,
-                                                                });
+                                                                if (
+                                                                    editText.trim() !==
+                                                                    ""
+                                                                ) {
+                                                                    handleEditTask(
+                                                                        {
+                                                                            ...task,
+                                                                            text: editText,
+                                                                        }
+                                                                    );
 
-                                                                setEdit(!edit);
+                                                                    setEdit(
+                                                                        !edit
+                                                                    );
+                                                                } else {
+                                                                    setEditError(
+                                                                        true
+                                                                    );
+                                                                }
                                                             }}
                                                         />
                                                     </>
@@ -158,6 +189,7 @@ const Comp3 = () => {
                                                         </span>
                                                         <Button
                                                             type="edit"
+                                                            buttonText={"Edit"}
                                                             onClick={() => {
                                                                 setEdit(
                                                                     task.id
@@ -173,12 +205,36 @@ const Comp3 = () => {
 
                                             <Button
                                                 type="delete"
+                                                buttonText={"Delete"}
                                                 onClick={() => {
-                                                    handleDeleteTask(task.id);
+                                                    setConfirmationOpen(true);
+                                                    if (isDelete) {
+                                                        handleDeleteTask(
+                                                            task.id
+                                                        );
+                                                        return;
+                                                    }
+                                                    console.log(
+                                                        "Not permission for delete."
+                                                    );
                                                 }}
                                             />
+                                            {confirmationOpen ? (
+                                                <ConfirmDelete
+                                                    setConfirmationOpen={
+                                                        setConfirmationOpen
+                                                    }
+                                                    handleDeleteTask={
+                                                        handleDeleteTask
+                                                    }
+                                                    id={task.id}
+                                                />
+                                            ) : (
+                                                ""
+                                            )}
                                         </div>
                                     );
+                                    
                                 })}
                             </>
                         ) : (

@@ -2,7 +2,9 @@ import { scan } from "react-scan"; // must be imported before React and React DO
 import React, { useReducer } from "react";
 import Comp1 from "./components/Comp1";
 import reducer from "./reducer";
+import { initialTasks } from "./initialTasks";
 import { TaskContext, TaskDispatchContext } from "./context/taskContext";
+import ConfirmDelete from "./components/ConfirmDelete";
 
 const App = () => {
     const [tasks, dispatch] = useReducer(reducer, initialTasks);
@@ -17,12 +19,6 @@ const App = () => {
         </>
     );
 };
-
-const initialTasks = [
-    { id: 0, text: "Chittagong lengta shah", done: true },
-    { id: 1, text: "Sylhet Bal shah", done: false },
-    { id: 2, text: "Taniar jamai", done: false },
-];
 
 export default App;
 
