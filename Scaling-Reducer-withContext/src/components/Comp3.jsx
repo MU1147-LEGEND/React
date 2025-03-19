@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import Button from "./buttons/Button";
 import { TaskContext, TaskDispatchContext } from "../context/taskContext";
 
-let inputStyle = "";
 const Comp3 = () => {
     const [text, setText] = useState("");
     const [editText, setEditText] = useState("");
     const [edit, setEdit] = useState(null);
+    const [inputError, setInputError] = useState(false);
     // context and reducers
     const tasks = useContext(TaskContext);
     const dispatch = useContext(TaskDispatchContext);
@@ -43,11 +43,9 @@ const Comp3 = () => {
         });
     };
 
-    const addInputError = ()=>{
-        if(!text){
-            inputStyle = "ring-2 ring-red-500 bg-red-300";
-        }
-    }
+    const addInputError = () => {
+        setInputError(true);
+    };
 
     // AI generated random uuid generator code.
     function generateUUID() {
@@ -82,7 +80,12 @@ const Comp3 = () => {
             <div className="bg-black/80 m-auto text-center w-10/12 text-white">
                 <h1 className="text-3xl">Tourist spots to visit</h1>
                 <div className="py-4">
-                    <AddInput text={text} setText={setText} />
+                    <AddInput
+                        text={text}
+                        setText={setText}
+                        inputError={inputError}
+                        setInputError={setInputError}
+                    />
                     <Button
                         type={"add"}
                         onClick={() => {
@@ -90,6 +93,7 @@ const Comp3 = () => {
                         }}
                     />
                     <br />
+                    <p className="text-red-400">{inputError ? "Please add some text" : ""}</p>
                     <div className="tasks pt-4">
                         {tasks.length ? (
                             <>
@@ -128,8 +132,8 @@ const Comp3 = () => {
                                                                 );
                                                             }}
                                                         />
-                                                        <button
-                                                            className="relative mx-2 px-4 py-1.5 bg-green-400 rounded-lg hover:bg-green-500 transition-colors duration-300 text-black/95 active:bg-green-600 active:translate-y-[2px]"
+                                                        <Button
+                                                            type="save"
                                                             onClick={() => {
                                                                 handleEditTask({
                                                                     ...task,
@@ -138,9 +142,7 @@ const Comp3 = () => {
 
                                                                 setEdit(!edit);
                                                             }}
-                                                        >
-                                                            Save
-                                                        </button>
+                                                        />
                                                     </>
                                                 ) : (
                                                     <>
@@ -154,8 +156,8 @@ const Comp3 = () => {
                                                             {" "}
                                                             {task.text}{" "}
                                                         </span>
-                                                        <button
-                                                            className="relative mx-2 px-4 py-1.5 bg-orange-400 rounded-lg hover:bg-orange-500 transition-colors duration-300 text-black/95 active:bg-orange-600 active:translate-y-[2px]"
+                                                        <Button
+                                                            type="edit"
                                                             onClick={() => {
                                                                 setEdit(
                                                                     task.id
@@ -164,9 +166,7 @@ const Comp3 = () => {
                                                                     task.text
                                                                 );
                                                             }}
-                                                        >
-                                                            Edit
-                                                        </button>
+                                                        />
                                                     </>
                                                 )}
                                             </div>
@@ -174,7 +174,6 @@ const Comp3 = () => {
                                             <Button
                                                 type="delete"
                                                 onClick={() => {
-                                                    console.log(tasks);
                                                     handleDeleteTask(task.id);
                                                 }}
                                             />
@@ -203,15 +202,20 @@ const Comp3 = () => {
 
 export default Comp3;
 
-function AddInput({ text, setText }) {
+function AddInput({ text, setText, inputError, setInputError }) {
     return (
         <input
-            className={inputStyle + ""}
+            className={
+                inputError
+                    ? "ring-2 ring-red-500 py-1.5 px-2 rounded-lg focus:outline-none"
+                    : "text-black py-1.5 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            }
             type="text"
             value={text}
             placeholder="Add a task"
             onChange={(e) => {
                 setText(e.target.value);
+                setInputError(false);
             }}
         />
     );
