@@ -208,15 +208,7 @@ const Comp3 = () => {
                                                 buttonText={"Delete"}
                                                 onClick={() => {
                                                     setConfirmationOpen(true);
-                                                    if (isDelete) {
-                                                        handleDeleteTask(
-                                                            task.id
-                                                        );
-                                                        return;
-                                                    }
-                                                    console.log(
-                                                        "Not permission for delete."
-                                                    );
+
                                                 }}
                                             />
                                             {confirmationOpen ? (
