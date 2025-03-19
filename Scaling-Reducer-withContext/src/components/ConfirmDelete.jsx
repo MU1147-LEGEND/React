@@ -13,7 +13,7 @@ const ConfirmDelete = ({ setConfirmationOpen, handleDeleteTask, id }) => {
     return (
         <>
             <div className="bg-black/80 h-full w-full absolute top-0 left-0 z-10">
-                <div className="bg-stone-400 h-1/2 w-3/4 absolute top-0 left-0 right-0 bottom-0 m-auto text-center flex justify-center items-center rounded-2xl">
+                <div className="bg-stone-400 h-1/2 w-3/4 absolute top-0 left-0 right-0 bottom-0 m-auto text-center flex justify-center items-center rounded-2xl  animate-[grow_0.5s_ease-in-out]">
                     <h1 className="absolute top-12 text-3xl">
                         Are you sure ?{" "}
                     </h1>
