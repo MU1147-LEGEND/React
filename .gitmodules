@@ -10,3 +10,6 @@
 [submodule "bteb-result-app"]
 	path = bteb-result-app
 	url = https://github.com/MU1147-LEGEND/bteb-result-app
+[submodule "Scaling-Reducer-withContext"]
+	path = Scaling-Reducer-withContext
+	url = https://github.com/MU1147-LEGEND/Scaling-Reducer-withContext
