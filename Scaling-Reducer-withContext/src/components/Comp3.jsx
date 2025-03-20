@@ -5,6 +5,9 @@ import ConfirmDelete from "./ConfirmDelete";
 import generateUUID from "../randomIDgenerator/randomUUID";
 
 const Comp3 = () => {
+    {
+        /* here no props recieving, handled with context*/
+    }
     const [text, setText] = useState("");
     const [editText, setEditText] = useState("");
     const [edit, setEdit] = useState(null);
@@ -51,8 +54,6 @@ const Comp3 = () => {
     const addInputError = () => {
         setInputError(true);
     };
-
-    
 
     return (
         <>

@@ -13,7 +13,7 @@ const App = () => {
         <>
             <TaskContext.Provider value={tasks}>
                 <TaskDispatchContext.Provider value={dispatch}>
-                    <Comp1 />
+                    <Comp1 /> {/* here no props passing, handled with context*/}
                 </TaskDispatchContext.Provider>
             </TaskContext.Provider>
         </>
