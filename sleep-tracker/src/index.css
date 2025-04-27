@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-size: 17px;
+    }
+    body {
+        @apply bg-gray-100 text-gray-900;
+    }
+}
+@layer components {
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        border-radius: 5px;
+        min-width: 100px;
+    }
+    tr,thead {
+        @apply flex flex-col lg:table-row gap-6 my-2;
+    }
+}
