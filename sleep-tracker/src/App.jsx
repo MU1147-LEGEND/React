@@ -23,8 +23,7 @@ const App = () => {
         if (storedData) {
             const now = new Date().getTime();
             const storedTime = storedData.timestamp;
-            // const sevenDays = EXPIRATION_DAYS * 24 * 60 * 60 * 1000;
-            const sevenDays = 1 * 60 * 1000;
+            const sevenDays = EXPIRATION_DAYS * 24 * 60 * 60 * 1000;
             if ((now - storedTime) < sevenDays) {
                 return storedData.fajrTimes;
             } else {
@@ -45,7 +44,7 @@ const App = () => {
         };
         const fajrDataStore = {
             fajrTimes,
-            timestamp,
+            timestamp: storedSleepData?.timestamp || timestamp,
         };
         localStorage.setItem(FAJR_STORAGE_KEY, JSON.stringify(fajrDataStore));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToStore));
