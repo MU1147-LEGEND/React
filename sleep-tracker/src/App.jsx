@@ -23,8 +23,9 @@ const App = () => {
         if (storedData) {
             const now = new Date().getTime();
             const storedTime = storedData.timestamp;
-            const sevenDays = EXPIRATION_DAYS * 24 * 60 * 60 * 1000;
-            if (now - storedTime < sevenDays) {
+            // const sevenDays = EXPIRATION_DAYS * 24 * 60 * 60 * 1000;
+            const sevenDays = 1 * 60 * 1000;
+            if ((now - storedTime) < sevenDays) {
                 return storedData.fajrTimes;
             } else {
                 localStorage.removeItem(FAJR_STORAGE_KEY);
@@ -34,14 +35,17 @@ const App = () => {
     });
 
     // Save sleepTimes to localStorage
+    let timestamp = new Date().getDate();
     useEffect(() => {
+        const storedSleepData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
         const dataToStore = {
             sleepTimes,
-            timestamp: new Date().getTime(),
+            timestamp: storedSleepData?.timestamp || timestamp,
         };
         const fajrDataStore = {
             fajrTimes,
-            timestamp: new Date().getTime(),
+            timestamp,
         };
         localStorage.setItem(FAJR_STORAGE_KEY, JSON.stringify(fajrDataStore));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToStore));
