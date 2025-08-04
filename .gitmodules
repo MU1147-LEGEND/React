@@ -13,3 +13,6 @@
 [submodule "Scaling-Reducer-withContext"]
 	path = Scaling-Reducer-withContext
 	url = https://github.com/MU1147-LEGEND/Scaling-Reducer-withContext
+[submodule "infinite-scroll"]
+	path = infinite-scroll
+	url = https://github.com/MU1147-LEGEND/infinite-scroll
