@@ -62,6 +62,8 @@ const App = () => {
               }));
     };
 
+    const sleepDataArr = Object.entries(sleepTimes);
+    const fajrDataArr = Object.entries(fajrTimes);
     return (
         <>
             <section>
@@ -81,14 +83,12 @@ const App = () => {
 
                         <tr>
                             <td>Sleep</td>
-                            {Object.entries(sleepTimes).map((time) => {
-                                console.log(time[1]);
+                            {sleepDataArr.map((time) => {
                                 return (
                                     <td key={time}>
                                         <input
                                             type="time"
                                             name=""
-                                            id=""
                                             value={time[1]}
                                             onChange={(e) => {
                                                 handleTimeChange(
@@ -104,14 +104,12 @@ const App = () => {
                         </tr>
                         <tr>
                             <td>Fajr</td>
-                            {Object.entries(fajrTimes).map((time) => {
-                                console.log(time[1]);
+                            {fajrDataArr.map((time) => {
                                 return (
                                     <td key={time}>
                                         <input
                                             type="time"
                                             name=""
-                                            id=""
                                             value={time[1]}
                                             onChange={(e) => {
                                                 handleTimeChange(
@@ -125,6 +123,15 @@ const App = () => {
                                 );
                             })}
                         </tr>
+                        {/* <tr>
+                            <td>Sleep Time</td>
+                            {sleepDataArr.map((item, index)=>{
+                                // splitting the hour and minute
+                                const 
+                                console.log(Number(fajrDataArr[index][1]) - Number(item[1]));
+                                
+                            })}
+                        </tr> */}
                     </table>
                 </div>
             </section>
